@@ -14,10 +14,10 @@ O repositório foi pensado para funcionar bem no GitHub e no GitHub Pages. Cada 
 
 | Domínio | Peso | O que cai na prática | Módulos principais |
 |---|---:|---|---|
-| Design Resilient Architectures | 30% | Alta disponibilidade, disaster recovery, desacoplamento, multi-AZ e multi-region | 04, 05, 06, 07, 08, 09, 16, 17, 18 |
+| Design Resilient Architectures | 30% | Alta disponibilidade, disaster recovery, desacoplamento, multi-AZ e multi-region | 04, 05, 06, 07, 08, 09, 16, 17, 18, 22 |
 | Design High-Performing Architectures | 28% | Seleção de compute, caching, performance de storage, redes e bancos | 03, 04, 05, 06, 07, 08, 10, 11, 12 |
-| Design Secure Applications and Architectures | 24% | IAM, KMS, isolamento de rede, criptografia, trilhas de auditoria e governança | 02, 05, 07, 08, 10, 11, 14, 15, 16 |
-| Design Cost-Optimized Architectures | 18% | Rightsizing, classes de storage, modelos de compra, serverless e automação | 03, 04, 05, 06, 11, 12, 15, 16 |
+| Design Secure Applications and Architectures | 24% | IAM, KMS, isolamento de rede, criptografia, trilhas de auditoria e governança | 02, 05, 07, 08, 10, 11, 14, 15, 16, 23, 24, 25 |
+| Design Cost-Optimized Architectures | 18% | Rightsizing, classes de storage, modelos de compra, serverless e automação | 03, 04, 05, 06, 11, 12, 15, 16, 23 |
 
 ## 🗺️ Mapa de Estudos
 
@@ -57,6 +57,12 @@ O repositório foi pensado para funcionar bem no GitHub e no GitHub Pages. Cada 
 - Módulo 19: simulados completos
 - Módulo 20 e 21: glossário e revisão de links oficiais
 
+### Semana 9 (Tópicos Críticos SAA-C03)
+- Módulo 22: recuperação de desastres, continuidade, RTO/RPO e estratégias DR
+- Módulo 23: AWS Organizations, governança multi-conta e otimização de custos
+- Módulo 24: redes avançadas e conectividade híbrida (TGW, DX, VPN, PrivateLink)
+- Módulo 25: criptografia com KMS e gestão de segredos com Secrets Manager/SSM
+
 ## 📁 Módulos
 
 | # | Módulo | Domínio predominante | Status | Link |
@@ -82,6 +88,10 @@ O repositório foi pensado para funcionar bem no GitHub e no GitHub Pages. Cada 
 | 19 | Simulados e Questões | Todos os domínios | ✅ Completo | [README](./19-Simulados-e-Questoes/README.md) |
 | 20 | Glossário | Revisão | ✅ Completo | [README](./20-Glossario/README.md) |
 | 21 | Recursos e Links | Revisão | ✅ Completo | [README](./21-Recursos-e-Links/README.md) |
+| 22 | Recuperação de Desastres e Continuidade | Resilient / Secure | ✅ Completo | [README](./22-Recuperacao-de-Desastres-e-Continuidade/README.md) |
+| 23 | AWS Organizations, Governança e Custos | Secure / Cost | ✅ Completo | [README](./23-AWS-Organizations-Governanca-e-Custos/README.md) |
+| 24 | Redes Avançadas e Conectividade Híbrida | Secure / Performance | ✅ Completo | [README](./24-Redes-Avancadas-e-Conectividade-Hibrida/README.md) |
+| 25 | Criptografia, KMS e Gestão de Segredos | Secure | ✅ Completo | [README](./25-Criptografia-KMS-e-Gestao-de-Segredos/README.md) |
 
 ## 🚀 Como Usar Este Repositório
 
