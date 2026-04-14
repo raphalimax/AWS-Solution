@@ -3,839 +3,620 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AWS SAA-C03 | Portal de Estudos</title>
-  <meta name="description" content="Portal de estudos AWS Certified Solutions Architect Associate (SAA-C03).">
+  <title>AWS SAA-C03 | Curso de Estudos</title>
+  <meta name="description" content="Curso completo para a certificação AWS Certified Solutions Architect Associate (SAA-C03) — 31 módulos em PT-BR, 9 semanas de plano de estudo, simulados e labs.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #16131f;
-      --surface: #1e1a2e;
-      --surface-elev: #252038;
-      --border: #2e2845;
-      --border-accent: #6d28d9;
-      --text: #f0ecff;
-      --text-2: #8b85a8;
-      --text-3: #4d4870;
-      --accent: #7c3aed;
+      --bg:          #0f0d1a;
+      --surface:     #16131f;
+      --surface2:    #1e1a2e;
+      --surface3:    #252038;
+      --border:      #2a2540;
+      --border2:     #3d3560;
+      --accent:      #7c3aed;
+      --accent2:     #a855f7;
       --accent-soft: #2d1f52;
-      --accent-gradient: linear-gradient(90deg, #7c3aed, #a855f7);
-      --card-shadow: 0 8px 24px rgba(124, 58, 237, 0.15);
+      --text:        #f0ecff;
+      --text2:       #9d98bb;
+      --text3:       #5a5478;
+      --blue:        #60a5fa;
+      --green:       #4ade80;
+      --yellow:      #fbbf24;
+      --teal:        #2dd4bf;
+      --red:         #f87171;
+      --mono:        ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    *::selection {
-      background: #6d28d9;
-      color: #ffffff;
-    }
-
-    html,
-    body {
-      scrollbar-color: #2e2845 #16131f;
-      scrollbar-width: thin;
-    }
-
-    body::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    body::-webkit-scrollbar-track {
-      background: #16131f;
-    }
-
-    body::-webkit-scrollbar-thumb {
-      background: #2e2845;
-      border-radius: 999px;
-    }
-
-    body::-webkit-scrollbar-thumb:hover {
-      background: #6d28d9;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scrollbar-color: var(--border) var(--bg); scrollbar-width: thin; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    ::selection { background: var(--accent); color: #fff; }
 
     body {
       font-family: "Manrope", sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.6;
     }
+    a { color: inherit; text-decoration: none; }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .shell {
-      width: min(1140px, calc(100% - 40px));
+    .container {
+      width: min(1100px, calc(100% - 40px));
       margin: 0 auto;
     }
 
-    header {
-      background: #16131f;
-      border-bottom: 1px solid #2e2845;
-      position: sticky;
-      top: 0;
-      z-index: 30;
+    /* ── NAV ───────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(15,13,26,.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
     }
-
-    .topbar {
-      min-height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      position: relative;
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 58px; gap: 16px;
     }
-
-    .left-nav {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      min-width: 0;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text);
-      font-size: 0.87rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: .9rem; letter-spacing: -.02em;
       white-space: nowrap;
     }
+    .brand-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 8px;
+      border: 1px solid var(--border2); background: transparent;
+      color: var(--text2); font-size: .78rem; font-weight: 600;
+      font-family: inherit; cursor: pointer; white-space: nowrap;
+      transition: border-color .15s, color .15s;
+    }
+    .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; border-radius: 8px; border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; font-size: .82rem; font-weight: 700;
+      font-family: inherit; cursor: pointer; white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(124,58,237,.35);
+      transition: opacity .15s, transform .15s;
+    }
+    .btn-primary:hover { opacity: .9; transform: translateY(-1px); }
 
-    .brand-dot {
-      width: 8px;
-      height: 8px;
+    /* ── HERO ──────────────────────────────────────── */
+    .hero-section {
+      padding: 64px 0 52px;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; pointer-events: none;
+      width: 600px; height: 600px;
       border-radius: 50%;
-      background: #7c3aed;
-      flex-shrink: 0;
+      background: radial-gradient(circle, rgba(124,58,237,.12) 0%, transparent 70%);
+      top: -200px; right: -150px;
     }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+    .hero-glow2 {
+      position: absolute; pointer-events: none;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168,85,247,.07) 0%, transparent 70%);
+      bottom: -100px; left: -100px;
     }
-
-    .nav-link {
-      font-size: 0.78rem;
-      color: #8b85a8;
-      padding: 5px 10px;
-      border-radius: 6px;
-    }
-
-    .nav-link.active {
-      background: #2d1f52;
-      color: #a78bfa;
-      font-weight: 600;
-    }
-
-    .repo-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #2d1f52;
-      border: 1px solid #6d28d9;
-      color: #a78bfa;
-      border-radius: 8px;
-      padding: 7px 12px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .menu-toggle {
-      display: none;
-    }
-
-    .menu-btn {
-      display: none;
-      border: 1px solid #2e2845;
-      background: #1e1a2e;
-      color: #a78bfa;
-      border-radius: 8px;
-      padding: 6px 10px;
-      font-size: 1rem;
-      line-height: 1;
-      cursor: pointer;
-    }
-
-    .mobile-nav {
-      display: none;
-      position: absolute;
-      top: 56px;
-      left: 0;
-      right: 0;
-      background: #1e1a2e;
-      border: 1px solid #2e2845;
-      border-radius: 10px;
-      padding: 10px;
-      z-index: 35;
-    }
-
-    .mobile-nav a {
-      display: block;
-      color: #8b85a8;
-      font-size: 0.8rem;
-      padding: 8px 10px;
-      border-radius: 6px;
-    }
-
-    .mobile-nav a.active {
-      background: #2d1f52;
-      color: #a78bfa;
-      font-weight: 600;
-    }
-
-    .hero-wrap {
-      padding: 20px 0 14px;
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      background: #1e1a2e;
-      border: 1px solid #2e2845;
-      border-radius: 14px;
-      padding: 36px;
+    .hero-grid {
       display: grid;
-      grid-template-columns: 1.35fr 0.95fr;
-      gap: 22px;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 32px; align-items: center;
+      position: relative; z-index: 1;
     }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 320px;
-      height: 320px;
-      right: -110px;
-      top: -140px;
-      pointer-events: none;
-      background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0) 70%);
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--accent2);
+      background: var(--accent-soft); border: 1px solid #4c2d8f;
+      border-radius: 99px; padding: 5px 14px; margin-bottom: 18px;
     }
-
-    .eyebrow {
-      position: relative;
-      z-index: 1;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 11px;
-      color: #a78bfa;
-      background: #2d1f52;
-      border: 1px solid #4c2d8f;
-      border-radius: 99px;
-      padding: 5px 12px;
-      margin-bottom: 14px;
-      letter-spacing: 0.04em;
+    .hero-eyebrow .pulse {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent2); flex-shrink: 0;
+      animation: pulse 2s ease-in-out infinite;
     }
-
-    .eyebrow .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #7c3aed;
-      flex-shrink: 0;
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(.8); }
     }
-
     .hero-title {
-      position: relative;
-      z-index: 1;
-      color: #f0ecff;
-      font-size: clamp(2rem, 3.8vw, 3.15rem);
-      line-height: 1.08;
-      letter-spacing: -0.04em;
-      max-width: 14ch;
-      margin-bottom: 14px;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 800; line-height: 1.06; letter-spacing: -.04em;
+      margin-bottom: 18px; color: var(--text);
     }
-
-    .hero-title .accent {
-      color: #a855f7;
+    .hero-title .hi { color: var(--accent2); }
+    .hero-desc {
+      font-size: 1.05rem; color: var(--text2); line-height: 1.7;
+      max-width: 56ch; margin-bottom: 28px;
     }
-
-    .hero-body {
-      position: relative;
-      z-index: 1;
-      color: #8b85a8;
-      max-width: 64ch;
-      font-size: 1rem;
-      margin-bottom: 16px;
-    }
-
     .hero-ctas {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 40px;
     }
-
-    .cta-primary,
-    .cta-secondary {
-      border-radius: 8px;
-      padding: 10px 20px;
-      font-size: 0.86rem;
-      font-weight: 600;
-    }
-
-    .cta-primary {
-      color: #ffffff;
-      background: linear-gradient(135deg, #7c3aed, #a855f7);
-      border: 1px solid #7c3aed;
-    }
-
-    .cta-secondary {
-      color: #a78bfa;
-      background: transparent;
-      border: 1px solid #4c2d8f;
-    }
-
+    .hero-ctas .btn-primary { padding: 12px 24px; font-size: .9rem; }
+    .hero-ctas .btn-ghost   { padding: 11px 20px; font-size: .9rem; }
     .hero-stats {
-      border-top: 1px solid #2e2845;
-      margin-top: 2px;
-      padding-top: 14px;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      position: relative;
-      z-index: 1;
+      display: flex; align-items: center; gap: 0;
+      border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; background: var(--surface2);
     }
-
-    .stat {
-      background: #2d1f52;
-      border-radius: 8px;
-      padding: 12px 16px;
+    .stat-item {
+      flex: 1; padding: 14px 20px; text-align: center;
+      border-right: 1px solid var(--border);
     }
-
-    .stat strong {
-      display: block;
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 1;
-      color: #f0ecff;
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 1.6rem; font-weight: 800; letter-spacing: -.03em;
+      color: var(--text); line-height: 1; display: block;
       margin-bottom: 4px;
     }
-
-    .stat span {
-      font-size: 11px;
-      color: #4d4870;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    .stat-lbl {
+      font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text3);
     }
 
-    .prog-card {
-      background: #1e1a2e;
-      border: 1px solid #2e2845;
-      border-radius: 12px;
-      padding: 18px;
-      display: grid;
-      gap: 12px;
-      align-self: start;
-    }
-
-    .prog-card .label,
-    .prog-of,
-    .prog-sublabel,
-    .prog-note,
-    .count-pill,
-    .sec-head p,
-    .chip,
-    .mod-id,
-    .open-link {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
-
-    .prog-card .label {
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #8b85a8;
-    }
-
-    .prog-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-
-    .prog-num {
-      font-size: 40px;
-      line-height: 1;
-      color: #f0ecff;
-      letter-spacing: -0.04em;
-      font-weight: 600;
-    }
-
-    .prog-of {
-      color: #8b85a8;
-      font-size: 12px;
-    }
-
-    .prog-sublabel {
-      color: #8b85a8;
-      font-size: 11px;
-    }
-
-    .prog-bar {
-      height: 6px;
-      border-radius: 999px;
-      background: #2d1f52;
+    /* ── PROGRESS CARD ─────────────────────────────── */
+    .progress-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px; position: relative;
       overflow: hidden;
     }
-
-    .prog-fill {
-      height: 100%;
-      width: 0;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #7c3aed, #a855f7);
+    .progress-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
     }
-
-    .prog-note {
-      color: #4d4870;
-      font-size: 11px;
+    .pc-label {
+      font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--text3); margin-bottom: 16px;
     }
-
-    .section {
-      padding-top: 20px;
+    .pc-big {
+      font-size: 3.2rem; font-weight: 800; letter-spacing: -.05em;
+      line-height: 1; color: var(--text); margin-bottom: 4px;
     }
-
-    .sec-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
+    .pc-sub {
+      font-family: var(--mono); font-size: 11px; color: var(--text3);
+      margin-bottom: 16px;
     }
-
-    .sec-head h3 {
-      color: #f0ecff;
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
+    .pc-bar-wrap { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .pc-bar-fill {
+      height: 100%; width: 0; border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width .6s ease;
     }
-
-    .sec-head p,
-    .count-pill {
-      font-size: 11px;
-      color: #8b85a8;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .pc-pct {
+      text-align: right; font-family: var(--mono); font-size: 11px;
+      color: var(--accent2); margin-top: 6px;
     }
-
-    .filter-strip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
+    .pc-domains { display: grid; gap: 10px; margin-top: 18px; }
+    .pc-domain-row { display: flex; align-items: center; gap: 10px; }
+    .pc-domain-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .pc-domain-name { font-size: .75rem; color: var(--text2); flex: 1; }
+    .pc-domain-bar { flex: 2; height: 4px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .pc-domain-fill { height: 100%; border-radius: 99px; transition: width .6s ease; }
+    .pc-domain-count { font-family: var(--mono); font-size: 10px; color: var(--text3); white-space: nowrap; }
+    .pc-action {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-top: 20px;
+      padding: 11px; border-radius: 10px;
+      background: var(--accent-soft); border: 1px solid #4c2d8f;
+      color: var(--accent2); font-size: .8rem; font-weight: 700;
+      cursor: pointer; transition: background .15s, border-color .15s;
     }
+    .pc-action:hover { background: #3d2a6b; border-color: var(--accent2); }
 
-    .chip {
-      border: 1px solid #2e2845;
-      background: #1e1a2e;
-      color: #8b85a8;
-      border-radius: 99px;
-      padding: 5px 12px;
-      font-size: 11px;
-      cursor: pointer;
+    /* ── SECTION HEADER ────────────────────────────── */
+    .sec-wrap { padding: 60px 0 0; }
+    .sec-tag {
+      font-family: var(--mono); font-size: 11px; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--accent2); margin-bottom: 8px;
     }
-
-    .chip.on {
-      background: #2d1f52;
-      color: #a78bfa;
-      border-color: #6d28d9;
+    .sec-title {
+      font-size: 1.7rem; font-weight: 800; letter-spacing: -.03em;
+      color: var(--text); margin-bottom: 8px;
     }
+    .sec-desc { font-size: .95rem; color: var(--text2); max-width: 60ch; }
 
-    .mod-grid,
-    .sim-grid,
-    .gloss-grid {
+    /* ── DOMAIN CARDS ──────────────────────────────── */
+    .domain-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-top: 28px;
+    }
+    .domain-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px; position: relative; overflow: hidden;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+    }
+    .domain-card:hover {
+      border-color: var(--border2); transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    }
+    .domain-card::before {
+      content: ""; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px; border-radius: 14px 14px 0 0;
+    }
+    .domain-card.blue::before  { background: var(--blue);   }
+    .domain-card.green::before { background: var(--green);  }
+    .domain-card.yellow::before{ background: var(--yellow); }
+    .domain-card.teal::before  { background: var(--teal);   }
+    .domain-pct {
+      font-size: 2rem; font-weight: 800; letter-spacing: -.04em;
+      line-height: 1; margin-bottom: 6px;
+    }
+    .domain-card.blue   .domain-pct { color: var(--blue);   }
+    .domain-card.green  .domain-pct { color: var(--green);  }
+    .domain-card.yellow .domain-pct { color: var(--yellow); }
+    .domain-card.teal   .domain-pct { color: var(--teal);   }
+    .domain-name {
+      font-size: .82rem; font-weight: 700; color: var(--text); margin-bottom: 6px;
+    }
+    .domain-desc { font-size: .75rem; color: var(--text2); line-height: 1.55; }
+    .domain-count {
+      margin-top: 12px; font-family: var(--mono); font-size: 10px;
+      text-transform: uppercase; letter-spacing: .06em; color: var(--text3);
     }
 
-    .mod-card,
-    .sim-card,
-    .gloss-card {
-      background: #1e1a2e;
-      border: 1px solid #2e2845;
-      border-radius: 12px;
-      padding: 14px 16px 16px;
-      position: relative;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+    /* ── FEATURE GRID ──────────────────────────────── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-top: 28px;
     }
-
-    .mod-card::before,
-    .sim-card::before,
-    .gloss-card::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      height: 3px;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      background: linear-gradient(90deg, #7c3aed, #a855f7);
+    .feature-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 22px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color .2s, background .2s;
     }
-
-    .mod-card:hover,
-    .sim-card:hover,
-    .gloss-card:hover {
-      background: #252038;
-      border-color: #6d28d9;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.15);
+    .feature-card:hover { border-color: var(--border2); background: var(--surface3); }
+    .feature-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--accent-soft); border: 1px solid #4c2d8f;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
     }
+    .feature-title { font-size: .9rem; font-weight: 700; color: var(--text); }
+    .feature-desc  { font-size: .8rem; color: var(--text2); line-height: 1.6; }
 
-    .mod-id {
-      margin-top: 4px;
-      font-size: 10px;
-      color: #4d4870;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      user-select: none;
+    /* ── PLAN SECTION ──────────────────────────────── */
+    .plan-wrap {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px 32px; margin-top: 28px;
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: center;
+      position: relative; overflow: hidden;
     }
-
-    .mod-title,
-    .sim-title,
-    .gloss-title {
-      margin-top: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #f0ecff;
-      line-height: 1.35;
-      letter-spacing: -0.01em;
+    .plan-wrap::before {
+      content: ""; position: absolute; pointer-events: none;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,.1) 0%, transparent 70%);
+      right: -80px; top: -80px;
     }
-
-    .mod-desc,
-    .sim-desc,
-    .gloss-desc {
-      margin-top: 8px;
-      font-size: 11px;
-      color: #8b85a8;
-      line-height: 1.6;
+    .plan-title {
+      font-size: 1.4rem; font-weight: 800; letter-spacing: -.03em;
+      color: var(--text); margin-bottom: 10px;
     }
-
-    .open-link {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 11px;
-      color: #a855f7;
-      font-weight: 500;
-      letter-spacing: 0.02em;
+    .plan-desc { font-size: .9rem; color: var(--text2); line-height: 1.65; margin-bottom: 20px; }
+    .plan-weeks {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
     }
+    .week-pill {
+      background: var(--surface3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 10px; text-align: center;
+    }
+    .week-pill strong { display: block; font-size: .75rem; color: var(--text); }
+    .week-pill span { font-family: var(--mono); font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; }
 
+    /* ── FOOTER ────────────────────────────────────── */
     footer {
-      margin-top: 28px;
-      border-top: 1px solid #2e2845;
-      padding: 20px 0 28px;
-      color: #8b85a8;
-      font-size: 0.85rem;
-      background: #16131f;
+      margin-top: 72px; padding: 28px 0 36px;
+      border-top: 1px solid var(--border);
     }
-
-    @media (max-width: 980px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .mod-grid,
-      .sim-grid,
-      .gloss-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
     }
-
-    @media (max-width: 768px) {
-      .shell {
-        width: min(1140px, calc(100% - 32px));
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .menu-btn {
-        display: inline-flex;
-      }
-
-      .menu-toggle:checked ~ .mobile-nav {
-        display: block;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+    .footer-brand { font-size: .8rem; font-weight: 700; color: var(--text2); }
+    .footer-links { display: flex; gap: 16px; }
+    .footer-links a {
+      font-size: .78rem; color: var(--text3);
+      transition: color .15s;
     }
+    .footer-links a:hover { color: var(--accent2); }
 
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .domain-grid { grid-template-columns: repeat(2, 1fr); }
+      .plan-wrap { grid-template-columns: 1fr; }
+    }
     @media (max-width: 640px) {
-      .hero-title {
-        font-size: clamp(1.6rem, 5vw, 2.2rem);
-      }
-
-      .hero-ctas {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .cta-primary,
-      .cta-secondary {
-        width: 100%;
-        text-align: center;
-      }
-
-      .mod-grid,
-      .sim-grid,
-      .gloss-grid {
-        grid-template-columns: 1fr;
-      }
+      .feature-grid { grid-template-columns: 1fr; }
+      .domain-grid  { grid-template-columns: repeat(2, 1fr); }
+      .hero-stats   { flex-direction: column; border-radius: 12px; }
+      .stat-item    { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-item:last-child { border-bottom: none; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="shell topbar">
-      <div class="left-nav">
-        <a class="brand" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">
-          <span class="brand-dot" aria-hidden="true"></span>
-          AWS SAA-C03
+
+  <!-- NAV -->
+  <nav>
+    <div class="container nav-inner">
+      <a class="nav-brand" href="#">
+        <div class="brand-icon">A</div>
+        AWS SAA-C03
+      </a>
+      <div class="nav-actions">
+        <a class="btn-ghost" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Repositório
         </a>
-        <nav class="nav-links" aria-label="Navegacao interna">
-          <a class="nav-link active" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Modulos</a>
-          <a class="nav-link" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Simulados</a>
-          <a class="nav-link" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Glossario</a>
-        </nav>
+        <a class="btn-primary" href="./curso.html">
+          Acessar Curso →
+        </a>
       </div>
-
-      <input class="menu-toggle" type="checkbox" id="menu-toggle" aria-label="Abrir menu">
-      <label class="menu-btn" for="menu-toggle">☰</label>
-
-      <a class="repo-btn" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Repositorio</a>
-
-      <nav class="mobile-nav" aria-label="Navegacao mobile">
-        <a class="active" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Modulos</a>
-        <a href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Simulados</a>
-        <a href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Glossario</a>
-      </nav>
     </div>
-  </header>
+  </nav>
 
-  <div class="shell hero-wrap">
-    <section class="hero" id="topo">
-      <article>
-        <div class="eyebrow">
-          <span class="dot" aria-hidden="true"></span>
-          SAA-C03 · EM PREPARACAO
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-glow2" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="pulse" aria-hidden="true"></span>
+          SAA-C03 &nbsp;·&nbsp; Certificação AWS &nbsp;·&nbsp; PT-BR
         </div>
-        <h1 class="hero-title">Estude para pensar como <span class="accent">arquiteto</span> na AWS.</h1>
-        <p class="hero-body">O exame cobra decisao tecnica contextual. Este portal organiza o repositorio por modulos, simulados e progresso pessoal para uma revisao objetiva.</p>
-
+        <h1 class="hero-title">
+          Domine a<br>
+          <span class="hi">arquitetura</span><br>
+          na AWS.
+        </h1>
+        <p class="hero-desc">
+          31 módulos estruturados em português, cobrindo os 4 domínios do exame — com teoria, cheatsheets, flashcards, labs e simulados. Do zero à aprovação.
+        </p>
         <div class="hero-ctas">
-          <a class="cta-primary" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Acessar portal de estudos →</a>
-          <a class="cta-secondary" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Ver repositorio</a>
+          <a class="btn-primary" href="./curso.html">Iniciar Estudos →</a>
+          <a class="btn-ghost" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil" target="_blank" rel="noopener noreferrer">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            Ver Repositório
+          </a>
         </div>
-
         <div class="hero-stats">
-          <div class="stat"><strong>21</strong><span>Modulos</span></div>
-          <div class="stat"><strong>315</strong><span>Questoes</span></div>
-          <div class="stat"><strong>8</strong><span>Semanas</span></div>
-          <div class="stat"><strong>4</strong><span>Dominios</span></div>
-        </div>
-      </article>
-
-      <aside class="prog-card">
-        <div class="label">Progresso Geral</div>
-        <div>
-          <div class="prog-row">
-            <span class="prog-num" id="progN">0</span>
-            <span class="prog-of">/ 21 modulos</span>
+          <div class="stat-item">
+            <span class="stat-num">31</span>
+            <span class="stat-lbl">Módulos</span>
           </div>
-          <p class="prog-sublabel" id="progSub" style="margin-top: 4px;">0 concluidos</p>
-        </div>
-        <div>
-          <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
-          <p class="prog-note" style="margin-top: 8px;">Salvo em localStorage neste navegador.</p>
-        </div>
-      </aside>
-    </section>
-  </div>
-
-  <main class="shell">
-    <section class="section" id="modulos">
-      <div class="sec-head">
-        <div>
-          <h3>Modulos</h3>
-          <p>Selecione um dominio no filtro e abra as sessoes.</p>
-        </div>
-        <span class="count-pill" id="countPill">21 modulos</span>
-      </div>
-      <div class="filter-strip" id="filters"></div>
-      <div class="mod-grid" id="moduleGrid"></div>
-    </section>
-
-    <section class="section" id="simulados">
-      <div class="sec-head">
-        <div>
-          <h3>Simulados</h3>
-          <p>Publicados conforme ficarem prontos no repositorio.</p>
+          <div class="stat-item">
+            <span class="stat-num">9</span>
+            <span class="stat-lbl">Semanas</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">4</span>
+            <span class="stat-lbl">Domínios</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">300+</span>
+            <span class="stat-lbl">Questões</span>
+          </div>
         </div>
       </div>
-      <div class="sim-grid" id="simuladosGrid"></div>
-    </section>
 
-    <section class="section" id="glossario">
-      <div class="sec-head">
-        <div>
-          <h3>Glossario</h3>
-          <p>Acesso rapido ao modulo de revisao final.</p>
+      <!-- PROGRESS CARD -->
+      <div class="progress-card">
+        <p class="pc-label">Seu progresso</p>
+        <div class="pc-big" id="pcDone">0</div>
+        <p class="pc-sub" id="pcSub">de 31 módulos concluídos</p>
+        <div class="pc-bar-wrap">
+          <div class="pc-bar-fill" id="pcFill"></div>
+        </div>
+        <p class="pc-pct" id="pcPct">0%</p>
+
+        <div class="pc-domains" id="pcDomains">
+          <div class="pc-domain-row">
+            <span class="pc-domain-dot" style="background:var(--blue)"></span>
+            <span class="pc-domain-name">Resiliente</span>
+            <div class="pc-domain-bar"><div class="pc-domain-fill" id="domBlue" style="background:var(--blue);width:0"></div></div>
+            <span class="pc-domain-count" id="domBlueC">0/10</span>
+          </div>
+          <div class="pc-domain-row">
+            <span class="pc-domain-dot" style="background:var(--green)"></span>
+            <span class="pc-domain-name">Alta Performance</span>
+            <div class="pc-domain-bar"><div class="pc-domain-fill" id="domGreen" style="background:var(--green);width:0"></div></div>
+            <span class="pc-domain-count" id="domGreenC">0/8</span>
+          </div>
+          <div class="pc-domain-row">
+            <span class="pc-domain-dot" style="background:var(--yellow)"></span>
+            <span class="pc-domain-name">Segurança</span>
+            <div class="pc-domain-bar"><div class="pc-domain-fill" id="domYellow" style="background:var(--yellow);width:0"></div></div>
+            <span class="pc-domain-count" id="domYellowC">0/7</span>
+          </div>
+          <div class="pc-domain-row">
+            <span class="pc-domain-dot" style="background:var(--teal)"></span>
+            <span class="pc-domain-name">Custo</span>
+            <div class="pc-domain-bar"><div class="pc-domain-fill" id="domTeal" style="background:var(--teal);width:0"></div></div>
+            <span class="pc-domain-count" id="domTealC">0/6</span>
+          </div>
+        </div>
+
+        <a class="pc-action" href="./curso.html">
+          Continuar estudando →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOMAINS -->
+  <section class="sec-wrap">
+    <div class="container">
+      <p class="sec-tag">Domínios do Exame</p>
+      <h2 class="sec-title">4 domínios, 1 certificação.</h2>
+      <p class="sec-desc">O SAA-C03 distribui o peso das questões em quatro domínios principais. O curso cobre todos eles com profundidade.</p>
+      <div class="domain-grid">
+        <div class="domain-card blue">
+          <div class="domain-pct">30%</div>
+          <div class="domain-name">Arquiteturas Resilientes</div>
+          <div class="domain-desc">Multi-region, DR, HA, backups, Route 53, load balancers e auto scaling.</div>
+          <div class="domain-count">10 módulos</div>
+        </div>
+        <div class="domain-card green">
+          <div class="domain-pct">28%</div>
+          <div class="domain-name">Alta Performance</div>
+          <div class="domain-desc">EC2, ECS, Lambda, RDS, DynamoDB, Kinesis, Athena e otimização de throughput.</div>
+          <div class="domain-count">8 módulos</div>
+        </div>
+        <div class="domain-card yellow">
+          <div class="domain-pct">24%</div>
+          <div class="domain-name">Aplicações Seguras</div>
+          <div class="domain-desc">IAM, KMS, VPC, WAF, Shield, CloudTrail e conformidade.</div>
+          <div class="domain-count">7 módulos</div>
+        </div>
+        <div class="domain-card teal">
+          <div class="domain-pct">18%</div>
+          <div class="domain-name">Custo Otimizado</div>
+          <div class="domain-desc">Serverless, Savings Plans, Right Sizing, S3 storage classes e migração.</div>
+          <div class="domain-count">6 módulos</div>
         </div>
       </div>
-      <div class="gloss-grid">
-        <article class="gloss-card">
-          <div class="mod-id">MODULO 20</div>
-          <h4 class="gloss-title">Glossario AWS</h4>
-          <p class="gloss-desc">Termos e conceitos essenciais para revisar antes do exame.</p>
-          <a class="open-link" href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" target="_blank" rel="noopener noreferrer">Abrir sessao →</a>
-        </article>
-      </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
+  <!-- FEATURES -->
+  <section class="sec-wrap">
+    <div class="container">
+      <p class="sec-tag">O que está incluído</p>
+      <h2 class="sec-title">Tudo que você precisa para passar.</h2>
+      <p class="sec-desc">Cada módulo vem com múltiplos formatos de estudo para reforçar o conteúdo da forma mais eficiente.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📖</div>
+          <div class="feature-title">Teoria completa</div>
+          <div class="feature-desc">READMEs detalhados cobrindo cada serviço com contexto de exame, casos de uso e comparativos de decisão.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Cheatsheets</div>
+          <div class="feature-desc">Resumos rápidos para revisão de última hora. Os pontos mais cobrados em formato direto e escaneável.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🃏</div>
+          <div class="feature-title">Flashcards</div>
+          <div class="feature-desc">Perguntas e respostas para fixação ativa. Ideal para revisar conceitos antes do exame.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧪</div>
+          <div class="feature-title">Labs práticos</div>
+          <div class="feature-desc">Exercícios guiados para aplicar os conceitos na prática e consolidar o aprendizado técnico.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">❓</div>
+          <div class="feature-title">Questões por módulo</div>
+          <div class="feature-desc">Questões no estilo SAA-C03 para testar o entendimento ao final de cada módulo.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <div class="feature-title">Simulados completos</div>
+          <div class="feature-desc">3 simulados de 65 questões com distribuição proporcional aos domínios do exame real.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDY PLAN -->
+  <section class="sec-wrap">
+    <div class="container">
+      <div class="plan-wrap">
+        <div>
+          <p class="sec-tag" style="margin-bottom:8px">Plano de estudo</p>
+          <h2 class="plan-title">9 semanas do zero à prova.</h2>
+          <p class="plan-desc">O curso vem com um plano semanal estruturado dentro do portal de estudos, dividindo os 31 módulos em etapas progressivas por domínio.</p>
+          <a class="btn-primary" href="./curso.html#plano" style="display:inline-flex">Ver plano semanal →</a>
+        </div>
+        <div>
+          <div class="plan-weeks">
+            <div class="week-pill"><strong>Sem. 1–2</strong><span>Fundamentos + IAM</span></div>
+            <div class="week-pill"><strong>Sem. 3</strong><span>Compute + HA</span></div>
+            <div class="week-pill"><strong>Sem. 4</strong><span>Storage + DB</span></div>
+            <div class="week-pill"><strong>Sem. 5</strong><span>Network + VPC</span></div>
+            <div class="week-pill"><strong>Sem. 6</strong><span>Integration + Serverless</span></div>
+            <div class="week-pill"><strong>Sem. 7</strong><span>Analytics + ML</span></div>
+            <div class="week-pill"><strong>Sem. 8</strong><span>Governança + Migração</span></div>
+            <div class="week-pill"><strong>Sem. 9</strong><span>Revisão + Simulados</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
-    <div class="shell">AWS SAA-C03 · Portal de estudos minimalista</div>
+    <div class="container footer-inner">
+      <span class="footer-brand">AWS SAA-C03 · Curso em PT-BR</span>
+      <div class="footer-links">
+        <a href="./curso.html">Portal de Estudos</a>
+        <a href="https://github.com/Thiago-code-lab/aws-solutions-architect-brasil" target="_blank" rel="noopener noreferrer">Repositório</a>
+      </div>
+    </div>
   </footer>
 
   <script>
-    const DPCT = { Resilient: "30%", "High-Performing": "28%", Secure: "24%", "Cost-Optimized": "18%", Fundamentos: "-", Todos: "-" };
+    // ── Sync progress from curso.html's localStorage key ──
+    const SK = "aws-saa-curso-v1";
 
-    const mods = [
-      { id: "01", title: "Introducao SAA-C03", domain: "Fundamentos", status: "complete", folder: "01-Introducao-SAA-C03", desc: "Estrutura do exame, dominios, estrategia de estudo e plano de evolucao." },
-      { id: "02", title: "IAM e Seguranca", domain: "Secure", status: "complete", folder: "02-IAM-e-Seguranca", desc: "Identidade, autorizacao, KMS, Organizations e protecao de credenciais." },
-      { id: "03", title: "Computacao EC2", domain: "High-Performing", status: "complete", folder: "03-Computacao-EC2", desc: "Familias de instancia, EBS, AMIs e estrategias de computacao." },
-      { id: "04", title: "Alta Disponibilidade e Escalabilidade", domain: "Resilient", status: "complete", folder: "04-Alta-Disponibilidade-e-Escalabilidade", desc: "ALB, NLB, ASG, health checks e escalabilidade automatica." },
-      { id: "05", title: "Amazon S3 e Armazenamento", domain: "Resilient", status: "complete", folder: "05-Amazon-S3-e-Armazenamento", desc: "Versioning, lifecycle, replicacao e classes de armazenamento." },
-      { id: "06", title: "Banco de Dados", domain: "High-Performing", status: "complete", folder: "06-Banco-de-Dados", desc: "RDS, Aurora, DynamoDB e criterios de escolha para o exame." },
-      { id: "07", title: "VPC e Redes", domain: "Secure", status: "complete", folder: "07-VPC-e-Redes", desc: "Subnets, rotas, NAT, endpoints e conectividade hibrida." },
-      { id: "08", title: "DNS, Route 53 e CloudFront", domain: "Resilient", status: "complete", folder: "08-DNS-Route53-e-CloudFront", desc: "DNS gerenciado, CDN e distribuicao global com baixa latencia." },
-      { id: "09", title: "Desacoplamento: SQS, SNS, EventBridge", domain: "Resilient", status: "complete", folder: "09-Desacoplamento-SQS-SNS-EventBridge", desc: "Mensageria orientada a eventos e padroes para resiliencia." },
-      { id: "10", title: "Containers: ECS, EKS, Fargate", domain: "High-Performing", status: "complete", folder: "10-Containers-ECS-EKS-Fargate", desc: "Execucao de containers gerenciados e escolha por caso de uso." },
-      { id: "11", title: "Serverless: Lambda e API Gateway", domain: "Cost-Optimized", status: "complete", folder: "11-Serverless-Lambda-API-Gateway", desc: "Arquiteturas sem servidor com foco em simplicidade e custo." },
-      { id: "12", title: "Dados e Analytics", domain: "High-Performing", status: "complete", folder: "12-Dados-e-Analytics", desc: "Athena, Glue, Kinesis e pipelines analiticos na AWS." },
-      { id: "13", title: "Machine Learning e IA", domain: "High-Performing", status: "complete", folder: "13-Machine-Learning-e-IA", desc: "Servicos de IA gerenciados mais cobrados para arquitetos." },
-      { id: "14", title: "Monitoramento: CloudWatch e CloudTrail", domain: "Secure", status: "complete", folder: "14-Monitoramento-CloudWatch-CloudTrail", desc: "Logs, metricas e trilhas de auditoria para governanca." },
-      { id: "15", title: "Migracao e Transferencia", domain: "Cost-Optimized", status: "complete", folder: "15-Migracao-e-Transferencia", desc: "DMS, DataSync, Snow Family e estrategias de migracao." },
-      { id: "16", title: "Well-Architected Framework", domain: "Resilient", status: "complete", folder: "16-Well-Architected-Framework", desc: "Os pilares e revisoes arquiteturais para melhorias continuas." },
-      { id: "17", title: "Casos de Uso Reais", domain: "Resilient", status: "complete", folder: "17-Casos-de-Uso-Reais", desc: "Cenarios completos com trade-offs de arquitetura reais." },
-      { id: "18", title: "Labs Praticos", domain: "Todos", status: "complete", folder: "18-Labs-Praticos", desc: "Implementacoes praticas para consolidar a revisao teorica." },
-      { id: "19", title: "Simulados e Questoes", domain: "Todos", status: "complete", folder: "19-Simulados-e-Questoes", desc: "Treino final com questoes no estilo da certificacao." },
-      { id: "20", title: "Glossario", domain: "Fundamentos", status: "complete", folder: "20-Glossario", desc: "Revisao de termos tecnicos e vocabulario da prova." },
-      { id: "21", title: "Recursos e Links", domain: "Fundamentos", status: "complete", folder: "21-Recursos-e-Links", desc: "Curadoria de referencias para estudo continuo." }
-    ].map((m) => ({ ...m, link: "https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git" }));
+    // Domain membership (IDs from curso.html MODULES array)
+    const DOMAIN_IDS = {
+      resilient: ["04","05","08","13","14","16","22","24","26","27"],
+      hp:        ["04","06","10","12","17","18","19","20"],
+      secure:    ["02","03","08","09","25","28","29"],
+      cost:      ["11","15","21","23","07","31"]
+    };
+    const TOTAL = 31;
 
-    const sims = [
-      { title: "Simulado 01", desc: "65 questoes com distribuicao proporcional aos dominios do exame.", href: "https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git", status: "Em producao" },
-      { title: "Simulado 02", desc: "65 questoes com foco em cenarios arquiteturais complexos.", href: "https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git", status: "Em producao" },
-      { title: "Simulado 03", desc: "65 questoes mais desafiadoras com multi-step reasoning.", href: "https://github.com/Thiago-code-lab/aws-solutions-architect-brasil.git", status: "Em producao" }
-    ];
+    function loadProgress() {
+      const raw = JSON.parse(localStorage.getItem(SK) || "{}");
+      const done = Object.values(raw).filter(Boolean).length;
+      const pct  = TOTAL > 0 ? Math.round((done / TOTAL) * 100) : 0;
 
-    const FILTERS = ["Todos", "Fundamentos", "Resilient", "High-Performing", "Secure", "Cost-Optimized"];
-    let active = "Todos";
-    const SK = "aws-saa-v4";
-    let prog = JSON.parse(localStorage.getItem(SK) || "{}");
+      document.getElementById("pcDone").textContent = done;
+      document.getElementById("pcSub").textContent  = `de ${TOTAL} módulos concluídos`;
+      document.getElementById("pcFill").style.width = pct + "%";
+      document.getElementById("pcPct").textContent  = pct + "%";
 
-    function filtered() {
-      return active === "Todos" ? mods : mods.filter((m) => m.domain === active);
-    }
-
-    function renderFilters() {
-      const b = document.getElementById("filters");
-      b.innerHTML = "";
-      FILTERS.forEach((f) => {
-        const el = document.createElement("button");
-        el.type = "button";
-        el.className = "chip" + (f === active ? " on" : "");
-        el.textContent = f;
-        el.addEventListener("click", () => {
-          active = f;
-          renderFilters();
-          renderMods();
-        });
-        b.appendChild(el);
+      const domCfg = [
+        { fillId: "domBlue",   countId: "domBlueC",   ids: DOMAIN_IDS.resilient, total: 10 },
+        { fillId: "domGreen",  countId: "domGreenC",  ids: DOMAIN_IDS.hp,        total: 8  },
+        { fillId: "domYellow", countId: "domYellowC", ids: DOMAIN_IDS.secure,    total: 7  },
+        { fillId: "domTeal",   countId: "domTealC",   ids: DOMAIN_IDS.cost,      total: 6  },
+      ];
+      domCfg.forEach(({ fillId, countId, ids, total }) => {
+        const d = ids.filter(id => raw[id]).length;
+        document.getElementById(fillId).style.width  = Math.round((d / total) * 100) + "%";
+        document.getElementById(countId).textContent = `${d}/${total}`;
       });
     }
 
-    function renderMods() {
-      const grid = document.getElementById("moduleGrid");
-      const pill = document.getElementById("countPill");
-      const arr = filtered();
-      pill.textContent = arr.length + " modulo" + (arr.length !== 1 ? "s" : "");
-      grid.innerHTML = "";
-      arr.forEach((m) => {
-        const pct = DPCT[m.domain] || "-";
-        const card = document.createElement("article");
-        card.className = "mod-card";
-        card.innerHTML = `
-          <div class="mod-id" data-id="${m.id}">MODULO ${m.id}${pct !== "-" ? ` · ${pct}` : ""}</div>
-          <h4 class="mod-title">${m.title}</h4>
-          <p class="mod-desc">${m.desc}</p>
-          <a class="open-link" href="${m.link}" target="_blank" rel="noopener noreferrer">Abrir sessao →</a>
-        `;
-        grid.appendChild(card);
-      });
+    loadProgress();
 
-      grid.querySelectorAll(".mod-id[data-id]").forEach((el) => {
-        el.addEventListener("click", (event) => {
-          const id = event.currentTarget.getAttribute("data-id");
-          prog[id] = !prog[id];
-          localStorage.setItem(SK, JSON.stringify(prog));
-          updateProg();
-        });
-      });
-    }
-
-    function updateProg() {
-      const total = mods.length;
-      const done = Object.values(prog).filter(Boolean).length;
-      document.getElementById("progN").textContent = done;
-      document.getElementById("progSub").textContent = `${done} concluido${done !== 1 ? "s" : ""}`;
-      document.getElementById("progFill").style.width = `${Math.round((done / total) * 100)}%`;
-    }
-
-    function renderSims() {
-      document.getElementById("simuladosGrid").innerHTML = sims
-        .map(
-          (s) => `
-        <article class="sim-card">
-          <h4 class="sim-title">${s.title}</h4>
-          <p class="sim-desc">${s.desc}</p>
-          ${s.href ? `<a class="open-link" href="${s.href}" target="_blank" rel="noopener noreferrer">Abrir sessao →</a>` : `<span class="open-link">${s.status}</span>`}
-        </article>`
-        )
-        .join("");
-    }
-
-    renderFilters();
-    renderMods();
-    renderSims();
-    updateProg();
+    // Re-sync if another tab updates localStorage (e.g. studying in curso.html)
+    window.addEventListener("storage", e => { if (e.key === SK) loadProgress(); });
   </script>
 </body>
 </html>
