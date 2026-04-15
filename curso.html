@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <style>
     :root {
       --bg:          #0f0d1a;
@@ -398,9 +399,120 @@
       .search-wrap { display: none; }
       .mod-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── AUTH OVERLAY ────────────────────────── */
+    #authOverlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(10,8,20,.97);
+      backdrop-filter: blur(14px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .auth-card {
+      width: 100%; max-width: 400px;
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 20px; padding: 36px 32px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.5);
+    }
+    .auth-logo {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin: 0 auto 14px;
+    }
+    .auth-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -.03em; text-align: center; margin-bottom: 4px; }
+    .auth-subtitle { font-size: .82rem; color: var(--text2); text-align: center; margin-bottom: 24px; }
+    .auth-tabs {
+      display: flex; background: var(--bg); border-radius: 10px;
+      padding: 4px; margin-bottom: 22px; gap: 4px;
+    }
+    .auth-tab {
+      flex: 1; padding: 8px; border-radius: 7px; border: none;
+      font-family: inherit; font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .15s;
+    }
+    .auth-tab.active { background: var(--accent); color: #fff; }
+    .auth-tab:not(.active) { background: transparent; color: var(--text2); }
+    .auth-label {
+      display: block; font-size: .73rem; font-weight: 600;
+      color: var(--text2); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .auth-input {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;
+      font-family: inherit; font-size: .88rem; color: var(--text);
+      outline: none; transition: border-color .15s;
+    }
+    .auth-input:focus { border-color: var(--accent); }
+    .auth-input::placeholder { color: var(--text3); }
+    .auth-error {
+      display: none; background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.25); border-radius: 8px;
+      padding: 10px 14px; font-size: .8rem; color: #fca5a5; margin-bottom: 14px;
+    }
+    .auth-success {
+      background: rgba(34,197,94,.1) !important;
+      border-color: rgba(34,197,94,.25) !important;
+      color: #4ade80 !important;
+    }
+    .auth-btn {
+      width: 100%; padding: 12px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; font-family: inherit; font-size: .9rem; font-weight: 700;
+      cursor: pointer; box-shadow: 0 4px 14px rgba(124,58,237,.35);
+      transition: opacity .15s, transform .15s;
+    }
+    .auth-btn:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+    .auth-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+    /* ── USER INFO ───────────────────────────── */
+    #userInfo {
+      display: none; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    #userEmail {
+      font-size: .73rem; color: var(--text2);
+      max-width: 160px; overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap;
+    }
+    .btn-logout {
+      font-size: .73rem; padding: 5px 12px; border-radius: 6px;
+      border: 1px solid var(--border2); background: transparent;
+      color: var(--text2); cursor: pointer; font-family: inherit;
+      transition: border-color .15s, color .15s;
+    }
+    .btn-logout:hover { border-color: var(--red); color: var(--red); }
   </style>
 </head>
 <body>
+
+<!-- ═══════════════════ AUTH OVERLAY ═════════════════ -->
+<div id="authOverlay">
+  <div class="auth-card">
+    <div class="auth-logo">☁</div>
+    <h2 class="auth-title">AWS SAA-C03</h2>
+    <p class="auth-subtitle" id="authSubtitle">Entre na sua conta para acessar o curso</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Entrar</button>
+      <button class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">Criar conta</button>
+    </div>
+
+    <form id="authForm" onsubmit="handleAuthSubmit(event)">
+      <label class="auth-label" for="authEmail">E-mail</label>
+      <input class="auth-input" type="email" id="authEmail" required autocomplete="email" placeholder="seu@email.com">
+
+      <label class="auth-label" for="authPassword">Senha</label>
+      <input class="auth-input" type="password" id="authPassword" required minlength="6" autocomplete="current-password" placeholder="••••••••">
+
+      <div class="auth-error" id="authError"></div>
+
+      <button class="auth-btn" type="submit" id="authSubmitBtn">
+        <span id="authBtnText">Entrar</span>
+      </button>
+    </form>
+  </div>
+</div>
 
 <!-- ═══════════════════ FILE:// WARNING ══════════════ -->
 <div id="fileProtocolBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#1a0a00;border-bottom:2px solid #f59e0b;padding:12px 20px;display:none;align-items:center;gap:12px;flex-wrap:wrap">
@@ -430,6 +542,10 @@
       <input type="text" id="searchInput" placeholder="Pesquisar módulo…">
     </div>
     <span class="prog-badge" id="headerProg">0 / 31</span>
+    <div id="userInfo">
+      <span id="userEmail"></span>
+      <button class="btn-logout" onclick="handleSignOut()">Sair</button>
+    </div>
   </div>
 </header>
 
@@ -583,10 +699,133 @@ if (location.protocol === 'file:') {
   const banner = document.getElementById('fileProtocolBanner');
   if (banner) {
     banner.style.display = 'flex';
-    // Push header down so it isn't hidden behind the banner
     const hdr = document.getElementById('mainHeader');
     if (hdr) hdr.style.marginTop = banner.offsetHeight + 'px';
   }
+}
+
+// ── SUPABASE ─────────────────────────────────────
+const { createClient } = window.supabase;
+const sb = createClient(
+  'https://fmmgrmjbgkkobjdcwvbv.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtbWdybWpiZ2trb2JqZGN3dmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNjUzMzEsImV4cCI6MjA5MTg0MTMzMX0.HJ0qqX5oSqd7wcNqUCPEffgTAGwncCla0VxVylx8v7s'
+);
+
+// ── AUTH UI ──────────────────────────────────────
+let authTab = 'login';
+
+function switchAuthTab(tab) {
+  authTab = tab;
+  const isLogin = tab === 'login';
+  document.getElementById('tabLogin').classList.toggle('active', isLogin);
+  document.getElementById('tabSignup').classList.toggle('active', !isLogin);
+  document.getElementById('authBtnText').textContent = isLogin ? 'Entrar' : 'Criar conta';
+  document.getElementById('authSubtitle').textContent = isLogin
+    ? 'Entre na sua conta para acessar o curso'
+    : 'Crie sua conta gratuita';
+  document.getElementById('authPassword').autocomplete = isLogin ? 'current-password' : 'new-password';
+  const err = document.getElementById('authError');
+  err.style.display = 'none';
+  err.className = 'auth-error';
+}
+
+async function handleAuthSubmit(e) {
+  e.preventDefault();
+  const email    = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const btn      = document.getElementById('authSubmitBtn');
+  const errDiv   = document.getElementById('authError');
+
+  btn.disabled = true;
+  document.getElementById('authBtnText').textContent = 'Carregando…';
+  errDiv.style.display = 'none';
+
+  const result = authTab === 'login'
+    ? await sb.auth.signInWithPassword({ email, password })
+    : await sb.auth.signUp({ email, password });
+
+  if (result.error) {
+    const msgs = {
+      'Invalid login credentials':          'E-mail ou senha incorretos.',
+      'User already registered':            'E-mail já cadastrado. Tente entrar.',
+      'Password should be at least 6 characters': 'A senha precisa ter pelo menos 6 caracteres.',
+      'Email not confirmed':                'Confirme seu e-mail antes de entrar.',
+    };
+    errDiv.textContent    = msgs[result.error.message] || result.error.message;
+    errDiv.style.display  = 'block';
+    btn.disabled          = false;
+    document.getElementById('authBtnText').textContent = authTab === 'login' ? 'Entrar' : 'Criar conta';
+    return;
+  }
+
+  // Sign-up without auto-confirm → ask user to check e-mail
+  if (authTab === 'signup' && result.data?.user && !result.data?.session) {
+    errDiv.className      = 'auth-error auth-success';
+    errDiv.textContent    = 'Conta criada! Verifique seu e-mail para confirmar o cadastro.';
+    errDiv.style.display  = 'block';
+    btn.disabled          = false;
+    document.getElementById('authBtnText').textContent = 'Criar conta';
+  }
+}
+
+async function handleSignOut() {
+  await sb.auth.signOut();
+}
+
+// ── PROGRESS SYNC ────────────────────────────────
+async function loadProgressFromDB(userId) {
+  const { data, error } = await sb
+    .from('module_progress')
+    .select('module_id, completed')
+    .eq('user_id', userId);
+  if (!error && data) {
+    progress = {};
+    data.forEach(r => { if (r.completed) progress[r.module_id] = true; });
+    localStorage.setItem(SK, JSON.stringify(progress));
+  }
+}
+
+async function syncProgress(moduleId, completed) {
+  if (!currentUser) return;
+  await sb.from('module_progress').upsert(
+    { user_id: currentUser.id, module_id: moduleId, completed, updated_at: new Date().toISOString() },
+    { onConflict: 'user_id,module_id' }
+  );
+}
+
+// ── AUTH INIT ────────────────────────────────────
+async function initApp() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    await revealApp();
+  }
+
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN') {
+      currentUser = session.user;
+      await revealApp();
+    } else if (event === 'SIGNED_OUT') {
+      currentUser = null;
+      progress = {};
+      localStorage.removeItem(SK);
+      document.getElementById('authOverlay').style.display = 'flex';
+      document.getElementById('userInfo').style.display    = 'none';
+      switchAuthTab('login');
+    }
+  });
+}
+
+async function revealApp() {
+  await loadProgressFromDB(currentUser.id);
+  document.getElementById('authOverlay').style.display = 'none';
+  document.getElementById('userInfo').style.display    = 'flex';
+  document.getElementById('userEmail').textContent     = currentUser.email;
+  renderModules();
+  renderWeeks();
+  renderTraps();
+  renderSims();
+  updateProgress();
 }
 
 // ── DATA ────────────────────────────────────────
@@ -666,9 +905,10 @@ const SIMS = [
 
 // ── STATE ────────────────────────────────────────
 const SK = "aws-saa-curso-v1";
-let progress = JSON.parse(localStorage.getItem(SK) || "{}");
+let progress = {};
 let activeFilter = "todos";
 let searchQuery = "";
+let currentUser = null;
 
 // ── HELPERS ──────────────────────────────────────
 const modById = id => MODULES.find(m => m.id === id);
@@ -686,8 +926,9 @@ const wrapClass = {
   secure: "d-secure", cost: "d-cost", all: "d-all", lab: "d-lab"
 };
 
-function saveProgress() {
+function saveProgress(moduleId, completed) {
   localStorage.setItem(SK, JSON.stringify(progress));
+  syncProgress(moduleId, completed); // async, fire-and-forget
 }
 
 // ── RENDER MODULES ───────────────────────────────
@@ -756,7 +997,7 @@ function renderModules() {
     card.querySelector(".complete-btn").addEventListener("click", e => {
       const id = e.currentTarget.dataset.id;
       progress[id] = !progress[id];
-      saveProgress();
+      saveProgress(id, !!progress[id]);
       renderModules();
       updateProgress();
     });
@@ -910,11 +1151,7 @@ document.getElementById("searchInput").addEventListener("input", e => {
 });
 
 // ── INIT ─────────────────────────────────────────
-renderModules();
-renderWeeks();
-renderTraps();
-renderSims();
-updateProgress();
+initApp();
 </script>
 </body>
 </html>
