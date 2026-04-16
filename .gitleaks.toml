@@ -1,0 +1,15 @@
+# Gitleaks v8 configuration
+# Docs: https://github.com/gitleaks/gitleaks#configuration
+# Note: `regexes` must be a plain array of strings (not objects)
+
+title = "AWS-Solution Gitleaks Config"
+
+[allowlist]
+  description = "Patterns intentionally public in this repository"
+
+  # Supabase anon key — NOT a secret: it is rate-limited, RLS-protected,
+  # and documented by Supabase as safe to expose in browser code.
+  # Reference: https://supabase.com/docs/guides/api/api-keys
+  regexes = [
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\\.eyJpc3MiOiJzdXBhYmFzZSI[^\"'\\s]+"
+  ]

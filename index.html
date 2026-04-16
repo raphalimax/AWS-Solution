@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AWS SAA-C03 | Curso de Estudos</title>
   <meta name="description" content="Curso completo para a certificação AWS Certified Solutions Architect Associate (SAA-C03) — 31 módulos em PT-BR, 9 semanas de plano de estudo, simulados e labs.">
+
+  <!-- ── Security headers (meta fallback — headers ideais ficam no servidor) ── -->
+  <!-- Limita fontes de scripts, estilos e conexões externas permitidas -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src  'self' 'unsafe-inline';
+    style-src   'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src    'self' https://fonts.gstatic.com;
+    connect-src 'self';
+    img-src     'self' data:;
+    upgrade-insecure-requests;
+  ">
+  <!-- Não envia o Referer ao navegar para domínios externos -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <!-- Restringe APIs sensíveis do browser não utilizadas nesta página -->
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">

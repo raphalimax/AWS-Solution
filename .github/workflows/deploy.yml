@@ -3,26 +3,61 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]   # Quality gates run on every PR
   workflow_dispatch:
 
-# Minimal permissions required by actions/deploy-pages
+# Job-level overrides declared per-job for least-privilege
 permissions:
-  contents: read   # checkout only — never write to branches
-  pages: write     # upload and publish the Pages artifact
-  id-token: write  # OIDC token required by deploy-pages
+  contents: read
 
-# Prevent a second deploy from racing an active one.
-# cancel-in-progress: false keeps the running deployment alive.
+# PRs: cancel superseded runs to save minutes.
+# Main: never cancel — a deploy in progress must finish.
 concurrency:
-  group: github-pages
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
+# ── Job 1 · Quality gates (runs on PRs AND main) ──────────────────────────────
 jobs:
-  deploy:
+  quality:
+    name: Lint & Security Scan
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-    # Surfaces the deployment URL in the GitHub UI (Actions + Deployments tabs)
+    permissions:
+      contents: read
+      security-events: write   # Required to upload SARIF results
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Full history needed for accurate secret scanning
+
+      # HTML structural validation — catches malformed tags, duplicate IDs, etc.
+      - name: HTML Lint (htmlhint)
+        run: npx --yes htmlhint@latest "*.html" --config .htmlhintrc
+
+      # Scans git history for accidentally committed secrets (API keys, tokens, etc.)
+      - name: Secrets Scan (Gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # .gitleaks.toml in the repo root configures allowlisted patterns
+
+# ── Job 2 · Deploy (main branch only, after quality gates pass) ──────────────
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: quality                          # Blocked until quality passes
+    if: github.ref == 'refs/heads/main'     # Never deploy from PRs
+
+    permissions:
+      contents: read
+      pages: write      # Upload and publish the Pages artifact
+      id-token: write   # OIDC token required by deploy-pages
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -31,17 +66,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Configures the Pages token and validates the source branch/path
+      # Validates Pages config and emits environment variables for the artifact upload
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # Packages the repo root as a Pages artifact (skips Jekyll automatically)
+      # Packages the repo root as a Pages artifact — Jekyll is skipped automatically
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
-      # Deploys the artifact via the secure OIDC flow (no PAT / force-push needed)
+      # Deploys via OIDC — no PAT or force-push required
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
