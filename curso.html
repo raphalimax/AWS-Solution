@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AWS SAA-C03 | Curso de Estudos</title>
+
+  <!-- ── Security headers (meta fallback — headers ideais ficam no servidor) ── -->
+  <!-- CDN do Supabase e fonts.googleapis.com listados explicitamente -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src  'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+    style-src   'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src    'self' https://fonts.gstatic.com;
+    connect-src 'self' https://fmmgrmjbgkkobjdcwvbv.supabase.co;
+    img-src     'self' data:;
+    upgrade-insecure-requests;
+  ">
+  <!-- Não envia o Referer ao navegar para domínios externos -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <!-- Restringe APIs sensíveis do browser não utilizadas nesta página -->
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -511,6 +528,14 @@
         <span id="authBtnText">Entrar</span>
       </button>
     </form>
+
+    <!-- LGPD notice — visible only on the signup tab -->
+    <p id="lgpdNotice" style="display:none;margin-top:14px;font-size:.7rem;color:var(--text3);text-align:center;line-height:1.5">
+      Ao criar sua conta você concorda que seu e-mail e progresso nos módulos serão
+      armazenados exclusivamente para uso pessoal no curso, conforme a
+      <strong style="color:var(--text2)">LGPD (Lei 13.709/2018)</strong>.
+      Você pode exportar ou excluir seus dados a qualquer momento após o login.
+    </p>
   </div>
 </div>
 
@@ -544,7 +569,55 @@
     <span class="prog-badge" id="headerProg">0 / 31</span>
     <div id="userInfo">
       <span id="userEmail"></span>
-      <button class="btn-logout" onclick="handleSignOut()">Sair</button>
+      <!-- LGPD: data management dropdown -->
+      <div style="position:relative" id="accountMenu">
+        <button
+          onclick="toggleAccountMenu()"
+          title="Gerenciar conta e dados"
+          style="font-size:.78rem;padding:5px 10px;border-radius:6px;
+                 border:1px solid var(--border2);background:transparent;
+                 color:var(--text2);cursor:pointer;font-family:inherit;
+                 transition:border-color .15s,color .15s"
+          onmouseover="this.style.borderColor='var(--accent2)';this.style.color='var(--accent2)'"
+          onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">⚙</button>
+        <div id="accountDropdown"
+             style="display:none;position:absolute;right:0;top:calc(100% + 6px);
+                    background:var(--surface2);border:1px solid var(--border2);
+                    border-radius:10px;padding:6px;min-width:190px;
+                    box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:200">
+          <button onclick="exportUserData()"
+                  style="display:flex;align-items:center;gap:8px;width:100%;
+                         padding:8px 10px;border:none;background:transparent;
+                         font-family:inherit;font-size:.78rem;color:var(--text2);
+                         cursor:pointer;border-radius:6px;text-align:left;
+                         transition:background .12s,color .12s"
+                  onmouseover="this.style.background='var(--accent-soft)';this.style.color='var(--accent2)'"
+                  onmouseout="this.style.background='transparent';this.style.color='var(--text2)'">
+            <span>📦</span> Exportar meus dados
+          </button>
+          <button onclick="deleteUserData()"
+                  style="display:flex;align-items:center;gap:8px;width:100%;
+                         padding:8px 10px;border:none;background:transparent;
+                         font-family:inherit;font-size:.78rem;color:var(--text2);
+                         cursor:pointer;border-radius:6px;text-align:left;
+                         transition:background .12s,color .12s"
+                  onmouseover="this.style.background='rgba(239,68,68,.1)';this.style.color='#fca5a5'"
+                  onmouseout="this.style.background='transparent';this.style.color='var(--text2)'">
+            <span>🗑</span> Excluir meus dados
+          </button>
+          <div style="border-top:1px solid var(--border);margin:4px 0"></div>
+          <button onclick="handleSignOut()"
+                  style="display:flex;align-items:center;gap:8px;width:100%;
+                         padding:8px 10px;border:none;background:transparent;
+                         font-family:inherit;font-size:.78rem;color:var(--text2);
+                         cursor:pointer;border-radius:6px;text-align:left;
+                         transition:background .12s,color .12s"
+                  onmouseover="this.style.background='rgba(239,68,68,.1)';this.style.color='#fca5a5'"
+                  onmouseout="this.style.background='transparent';this.style.color='var(--text2)'">
+            <span>🚪</span> Sair
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -724,9 +797,82 @@ function switchAuthTab(tab) {
     ? 'Entre na sua conta para acessar o curso'
     : 'Crie sua conta gratuita';
   document.getElementById('authPassword').autocomplete = isLogin ? 'current-password' : 'new-password';
+  document.getElementById('lgpdNotice').style.display = isLogin ? 'none' : 'block';
   const err = document.getElementById('authError');
   err.style.display = 'none';
   err.className = 'auth-error';
+}
+
+// ── LGPD — Account management ────────────────────
+function toggleAccountMenu() {
+  const d = document.getElementById('accountDropdown');
+  d.style.display = d.style.display === 'none' ? 'block' : 'none';
+}
+// Close dropdown when clicking outside
+document.addEventListener('click', e => {
+  if (!document.getElementById('accountMenu').contains(e.target)) {
+    document.getElementById('accountDropdown').style.display = 'none';
+  }
+});
+
+// Art. 18 LGPD — Portabilidade: exporta todos os dados do titular em JSON
+async function exportUserData() {
+  document.getElementById('accountDropdown').style.display = 'none';
+  if (!currentUser) return;
+
+  const { data, error } = await sb
+    .from('module_progress')
+    .select('module_id, completed, updated_at')
+    .eq('user_id', currentUser.id);
+
+  if (error) { alert('Erro ao buscar dados: ' + error.message); return; }
+
+  const payload = {
+    exported_at:  new Date().toISOString(),
+    user_email:   currentUser.email,
+    user_id:      currentUser.id,
+    module_progress: data || [],
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `aws-saa-dados-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Art. 18 LGPD — Eliminação: apaga todos os dados do titular
+async function deleteUserData() {
+  document.getElementById('accountDropdown').style.display = 'none';
+  if (!currentUser) return;
+
+  const confirmed = confirm(
+    '⚠️  Excluir todos os meus dados\n\n' +
+    'Isso vai apagar permanentemente todo o seu progresso nos módulos.\n' +
+    'Esta ação não pode ser desfeita.\n\n' +
+    'Deseja continuar?'
+  );
+  if (!confirmed) return;
+
+  const { error } = await sb
+    .from('module_progress')
+    .delete()
+    .eq('user_id', currentUser.id);
+
+  if (error) { alert('Erro ao excluir dados: ' + error.message); return; }
+
+  // Reset local state
+  progress = {};
+  localStorage.removeItem(SK);
+
+  alert(
+    '✅  Seus dados de progresso foram excluídos.\n\n' +
+    'Para solicitar a exclusão completa da conta de autenticação, ' +
+    'entre em contato pelo repositório do projeto.'
+  );
+  await sb.auth.signOut();
 }
 
 async function handleAuthSubmit(e) {
@@ -969,13 +1115,13 @@ function renderModules() {
 
     const V = f => `./viewer.html?file=${m.folder}/${f}`;
     const resources = [];
-    if (!m.lab) resources.push(`<a class="res-link" href="${V('README.md')}" target="_blank">📖 Teoria</a>`);
-    if (m.lab)   resources.push(`<a class="res-link" href="${V('lab.md')}" target="_blank">🔬 Lab</a>`);
-    if (m.cheat) resources.push(`<a class="res-link" href="${V('cheatsheet.md')}" target="_blank">📋 Cheatsheet</a>`);
-    if (m.flash) resources.push(`<a class="res-link" href="${V('flashcards.md')}" target="_blank">🃏 Flashcards</a>`);
-    if (m.quest) resources.push(`<a class="res-link" href="${V('questoes.md')}" target="_blank">❓ Questões</a>`);
-    if (m.casos) resources.push(`<a class="res-link" href="${V('casos-de-uso.md')}" target="_blank">🏗 Casos</a>`);
-    if (m.links) resources.push(`<a class="res-link" href="${V('links.md')}" target="_blank">🔗 Links</a>`);
+    if (!m.lab) resources.push(`<a class="res-link" href="${V('README.md')}" target="_blank" rel="noopener noreferrer">📖 Teoria</a>`);
+    if (m.lab)   resources.push(`<a class="res-link" href="${V('lab.md')}" target="_blank" rel="noopener noreferrer">🔬 Lab</a>`);
+    if (m.cheat) resources.push(`<a class="res-link" href="${V('cheatsheet.md')}" target="_blank" rel="noopener noreferrer">📋 Cheatsheet</a>`);
+    if (m.flash) resources.push(`<a class="res-link" href="${V('flashcards.md')}" target="_blank" rel="noopener noreferrer">🃏 Flashcards</a>`);
+    if (m.quest) resources.push(`<a class="res-link" href="${V('questoes.md')}" target="_blank" rel="noopener noreferrer">❓ Questões</a>`);
+    if (m.casos) resources.push(`<a class="res-link" href="${V('casos-de-uso.md')}" target="_blank" rel="noopener noreferrer">🏗 Casos</a>`);
+    if (m.links) resources.push(`<a class="res-link" href="${V('links.md')}" target="_blank" rel="noopener noreferrer">🔗 Links</a>`);
 
     card.innerHTML = `
       <div class="card-top">
@@ -990,7 +1136,7 @@ function renderModules() {
         <button class="complete-btn" data-id="${m.id}">
           ${done ? "✓ Concluído" : "◯ Marcar como feito"}
         </button>
-        ${!m.lab ? `<a class="res-link" href="${V('README.md')}" target="_blank">Abrir →</a>` : `<a class="res-link" href="${V('lab.md')}" target="_blank">Abrir lab →</a>`}
+        ${!m.lab ? `<a class="res-link" href="${V('README.md')}" target="_blank" rel="noopener noreferrer">Abrir →</a>` : `<a class="res-link" href="${V('lab.md')}" target="_blank" rel="noopener noreferrer">Abrir lab →</a>`}
       </div>
     `;
 
@@ -1023,11 +1169,11 @@ function renderWeeks() {
       if (!m) return "";
       const W = f => `./viewer.html?file=${m.folder}/${f}`;
       const links = [];
-      if (!m.lab) links.push(`<a class="wm-link" href="${W('README.md')}" target="_blank">Teoria</a>`);
-      if (m.lab)  links.push(`<a class="wm-link" href="${W('lab.md')}" target="_blank">Lab</a>`);
-      if (m.cheat)links.push(`<a class="wm-link" href="${W('cheatsheet.md')}" target="_blank">Cheatsheet</a>`);
-      if (m.flash)links.push(`<a class="wm-link" href="${W('flashcards.md')}" target="_blank">Flashcards</a>`);
-      if (m.quest)links.push(`<a class="wm-link" href="${W('questoes.md')}" target="_blank">Questões</a>`);
+      if (!m.lab) links.push(`<a class="wm-link" href="${W('README.md')}" target="_blank" rel="noopener noreferrer">Teoria</a>`);
+      if (m.lab)  links.push(`<a class="wm-link" href="${W('lab.md')}" target="_blank" rel="noopener noreferrer">Lab</a>`);
+      if (m.cheat)links.push(`<a class="wm-link" href="${W('cheatsheet.md')}" target="_blank" rel="noopener noreferrer">Cheatsheet</a>`);
+      if (m.flash)links.push(`<a class="wm-link" href="${W('flashcards.md')}" target="_blank" rel="noopener noreferrer">Flashcards</a>`);
+      if (m.quest)links.push(`<a class="wm-link" href="${W('questoes.md')}" target="_blank" rel="noopener noreferrer">Questões</a>`);
       return `
         <div class="week-mod-row">
           <span class="wm-num">${m.id}</span>
@@ -1090,7 +1236,7 @@ function renderSims() {
     <div class="sim-card">
       <div class="sim-title">${s.title}</div>
       <div class="sim-desc">${s.desc}</div>
-      <a class="sim-link" href="./viewer.html?file=${s.folder}/${s.file}" target="_blank">Abrir simulado →</a>
+      <a class="sim-link" href="./viewer.html?file=${s.folder}/${s.file}" target="_blank" rel="noopener noreferrer">Abrir simulado →</a>
     </div>`).join("");
 }
 

@@ -1,0 +1,14 @@
+# Gitleaks configuration
+# Docs: https://github.com/gitleaks/gitleaks
+
+title = "AWS-Solution Gitleaks Config"
+
+[allowlist]
+  description = "Patterns that are intentionally public in this repository"
+
+  [[allowlist.regexes]]
+    description = "Supabase anon (public) key — designed to be client-side visible"
+    # The anon key is NOT a secret: it is rate-limited, RLS-protected, and
+    # documented by Supabase as safe to expose in browser code.
+    # Reference: https://supabase.com/docs/guides/api/api-keys
+    regex = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\\.eyJpc3MiOiJzdXBhYmFzZSI.*"
