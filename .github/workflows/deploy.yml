@@ -5,39 +5,43 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Minimal permissions required by actions/deploy-pages
 permissions:
-  contents: write
+  contents: read   # checkout only — never write to branches
+  pages: write     # upload and publish the Pages artifact
+  id-token: write  # OIDC token required by deploy-pages
 
+# Prevent a second deploy from racing an active one.
+# cancel-in-progress: false keeps the running deployment alive.
 concurrency:
-  group: pages-deploy
-  cancel-in-progress: true
+  group: github-pages
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    # Surfaces the deployment URL in the GitHub UI (Actions + Deployments tabs)
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - uses: actions/checkout@v5
-      - name: Publish static site to gh-pages
-        shell: bash
-        run: |
-          set -euo pipefail
+      - name: Checkout
+        uses: actions/checkout@v4
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      # Configures the Pages token and validates the source branch/path
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-          TMP_DIR="$(mktemp -d)"
-          rsync -av --delete --exclude '.git' --exclude '.github' ./ "$TMP_DIR/"
+      # Packages the repo root as a Pages artifact (skips Jekyll automatically)
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
 
-          git switch --orphan gh-pages
-          git rm -rf . >/dev/null 2>&1 || true
-
-          cp -R "$TMP_DIR"/. .
-          touch .nojekyll
-
-          git add -A
-          git commit -m "deploy: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" || {
-            echo "No changes to publish"
-            exit 0
-          }
-
-          git push --force origin gh-pages
+      # Deploys the artifact via the secure OIDC flow (no PAT / force-push needed)
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
